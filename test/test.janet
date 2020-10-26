@@ -4,7 +4,7 @@
 (import jdn::sample-jdns :jdn-loader/binding-type :struct)
 # need to make this fresh because sample-jdns was already imported.
 (import jdn::sample-jdns :as sample-jdns-env :jdn-loader/binding-type :env :fresh true)
-(import ./sample-jdns/foo :as single-foo)
+(import sample-jdns/foo :as single-foo)
 
 (deftest
 
