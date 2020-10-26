@@ -18,6 +18,7 @@ There are two ways to use `jdn-loader`, loading individual jdns, or loading an e
 Say you have a directory `sample-jdns` and inside you have a file `foo.jdn`.
 
 ``` clojure
+(import jdn-loader)
 (import sample-jdns/foo :as single-foo)
 
 single-foo/value
@@ -34,6 +35,7 @@ Both methods require you to prefix your directory with `jdn::`. This is because 
 #### struct
 This mode is useful for when you expect the data to grow over time in your repo, such as in a linter where you expect users to contribute PEGs. In other words, this is useful for an open set.
 ``` clojure
+(import jdn-loader)
 (import jdn::sample-data/jdn-samples :as sample-jdns :jdn-loader/binding-type :struct)
 
 sample-jdns/jdns # {:file1 {:field1 0 :field2 [0 1]} :file2 [{:otherfield1 "hi"}]}
@@ -42,6 +44,7 @@ sample-jdns/jdns # {:file1 {:field1 0 :field2 [0 1]} :file2 [{:otherfield1 "hi"}
 #### env
 This mode is useful if you have a closed set. This is closer in spirit to the individual loading method.
 ``` clojure
+(import jdn-loader)
 (import jdn::sample-data/jdn-samples :as sample-jdns-env :jdn-loader/binding-type :env)
 
 sample-jdns/file1 # {:field1 0 :field2 [0 1]}
