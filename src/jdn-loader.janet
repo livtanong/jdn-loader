@@ -24,9 +24,11 @@
      (jdn/decode (slurp filepath)))])
 
 (defn load-jdns
-  "given a path to a directory, find all jdn files and create bindings"
+  "given a path to a directory, find all jdn files and create bindings.
+  The binding type is dependent on the `:jdn-loader/binding-type` key in the args"
   [path args]
   (let [{:jdn-loader/binding-type binding-type} (struct (splice args))
+        binding-type (or binding-type :struct)
         dir-filenames (os/dir path)
         jdn-filenames (->> dir-filenames
                         (filter (partial string/has-suffix? ".jdn"))
@@ -34,8 +36,7 @@
         make-table (fn [key-fn val-fn filepaths]
                      (splice (mapcat (partial process-jdn-filepath key-fn val-fn) filepaths)))]
     (case binding-type
-      :struct (let []
-                @{'jdns @{:value (struct (splice (make-table keyword identity jdn-filenames)))}})
+      :struct @{'jdns @{:value (struct (splice (make-table keyword identity jdn-filenames)))}}
       :env (table (splice (make-table symbol (fn [val] @{:value val}) jdn-filenames)))
       @{})))
 
