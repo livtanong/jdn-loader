@@ -34,7 +34,7 @@
                         (filter (partial string/has-suffix? ".jdn"))
                         (map (fn [filename] (string path "/" filename))))
         make-table (fn [key-fn val-fn filepaths]
-                     (splice (mapcat (partial process-jdn-filepath key-fn val-fn) filepaths)))]
+                    (mapcat (partial process-jdn-filepath key-fn val-fn) filepaths))]
     (case binding-type
       :struct @{'jdns @{:value (struct (splice (make-table keyword identity jdn-filenames)))}}
       :env (table (splice (make-table symbol (fn [val] @{:value val}) jdn-filenames)))
